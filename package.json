@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "filereader": "^0.10.3",
+    "fs": "^0.0.1-security",
+    "shelljs": "^0.8.5",
     "socket.io": "^4.7.5"
   },
   "devDependencies": {

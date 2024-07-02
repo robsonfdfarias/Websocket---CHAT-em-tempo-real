@@ -38,12 +38,35 @@
                 input.value = '';
             }
         });
+        var verify = true;
 
         socket.on('chat message', (msg) => {
-            const item = document.createElement('li');
-            item.textContent = msg.user+' diz: '+msg.msg;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            if(verify){
+                msg.forEach((element, index) => {
+                    if(index<msg.length){
+                        //tira os espaços
+                        let jsonString = element.replace(/'/g, '"').replace(/([\[\]])/g, "").trim();
+                        let obj = JSON.parse("[" + jsonString + "]");
+                        //verifica se não é indefinido o conteúdo do array
+                        if(obj[0]!=undefined){
+                            //cria o elemento li
+                            const item = document.createElement('li');
+                            //adicionar o valor ao elemento criado
+                            item.textContent = obj[0]+' diz: '+obj[1];
+                            //adiciona o elemento criado ao elemento UL da página
+                            messages.appendChild(item);
+                            //move o scroll para o final da página
+                            window.scrollTo(0, document.body.scrollHeight);
+                        }
+                    }
+                });
+                verify=false
+            }else{
+                const item = document.createElement('li');
+                item.textContent = msg.user+' diz: '+msg.msg;
+                messages.appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+            }
         });
     </script>
   </body>
